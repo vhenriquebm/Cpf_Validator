@@ -14,6 +14,16 @@ class ViewController: UIViewController {
     
     //MARK: - Properties
     
+    private lazy var viewTitle: UILabel = {
+       let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Validador de CPF"
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 30, weight: .bold)
+        label.textAlignment = .center
+        return label
+    }()
+    
     private lazy var userCpfTextField: UITextField = {
         let tf = UITextField()
         tf.translatesAutoresizingMaskIntoConstraints = false
@@ -31,16 +41,15 @@ class ViewController: UIViewController {
         button.setTitleColor(.white, for:.normal)
         button.setTitle("Registrar", for: .normal)
         button.addTarget(self, action: #selector(presentMessageController), for: .touchUpInside)
+        button.layer.cornerRadius = 15
         return button
     }()
-    
     
     //MARK: - Initializers
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
         self.delegate = viewModel
-        
     }
     
     //MARK: - Private methods
@@ -48,11 +57,11 @@ class ViewController: UIViewController {
     private func configureUI() {
         addSubViews()
         configureConstraints()
-        
+        userCpfTextField.delegate = self
     }
     
     @objc private func validateCpf () {
-
+        
         if viewModel.cpfValidator(cpf: userCpfTextField.text) == true {
             userCpfTextField.layer.borderColor = UIColor.blue.cgColor
             userCpfTextField.layer.borderWidth = 1
@@ -65,6 +74,7 @@ class ViewController: UIViewController {
     }
     
     private func addSubViews() {
+        view.addSubview(viewTitle)
         view.addSubview(userCpfTextField)
         view.addSubview(registerButton)
     }
@@ -78,13 +88,24 @@ class ViewController: UIViewController {
     
     private func configureConstraints() {
         NSLayoutConstraint.activate([
-            userCpfTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 30),
-            userCpfTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 20),
+            
+            
+            
+            viewTitle.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 30),
+            viewTitle.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 20),
+            viewTitle.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -20),
+            
+            userCpfTextField.topAnchor.constraint(equalTo: viewTitle.bottomAnchor,constant: 20),
+            userCpfTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20),
             userCpfTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -20),
             
-            registerButton.topAnchor.constraint(equalTo: userCpfTextField.bottomAnchor,constant: 20),
+            
+            
+            registerButton.bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: -40),
             registerButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20),
             registerButton.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -20),
+            
+            
         ])
     }
     
@@ -92,3 +113,49 @@ class ViewController: UIViewController {
 }
 
 
+extension ViewController: UITextFieldDelegate {
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        var appendString = ""
+        
+        if textField.placeholder == "Digite o seu CPF" {
+            if range.length == 0 {
+                switch range.location {
+                case 3:
+                    appendString = "."
+                case 7:
+                    appendString = "."
+                case 11:
+                    appendString = "-"
+                default:
+                    break
+                }
+            }
+            
+            textField.text?.append(appendString)
+            
+            if (textField.text?.count)! > 13 && range.length == 0 {
+                return false
+            }
+        } else if textField.placeholder == "CEP" {
+            if range.length == 0 {
+                switch range.location {
+                case 2:
+                    appendString = "."
+                case 6:
+                    appendString = "-"
+                default:
+                    break
+                }
+            }
+            
+            textField.text?.append(appendString)
+            
+            if (textField.text?.count)! > 9 && range.length == 0 {
+                return false
+            }
+        }
+        return true
+    }
+    
+}
