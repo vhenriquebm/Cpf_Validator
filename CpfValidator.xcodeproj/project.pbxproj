@@ -16,6 +16,8 @@
 		33987BD028C1027F00C70DD7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33987BCE28C1027F00C70DD7 /* Main.storyboard */; };
 		33987BD228C1028100C70DD7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33987BD128C1028100C70DD7 /* Assets.xcassets */; };
 		33987BD528C1028100C70DD7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33987BD328C1028100C70DD7 /* LaunchScreen.storyboard */; };
+		339E302D28C22D090005C444 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339E302C28C22D090005C444 /* Extensions.swift */; };
+		339E302F28C232690005C444 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 339E302E28C232690005C444 /* README.md */; };
 		33ADF08F28C11DC700F9401C /* SuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ADF08E28C11DC700F9401C /* SuccessViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +33,8 @@
 		33987BD128C1028100C70DD7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		33987BD428C1028100C70DD7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		33987BD628C1028100C70DD7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		339E302C28C22D090005C444 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		339E302E28C232690005C444 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		33ADF08E28C11DC700F9401C /* SuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -121,10 +125,20 @@
 				334C510328C10405000B6668 /* Application */,
 				334C510128C103E0000B6668 /* View */,
 				334C510028C103D7000B6668 /* ViewModel */,
+				339E302B28C22CF00005C444 /* Utils */,
 				33987BCE28C1027F00C70DD7 /* Main.storyboard */,
 				33987BD628C1028100C70DD7 /* Info.plist */,
+				339E302E28C232690005C444 /* README.md */,
 			);
 			path = CpfValidator;
+			sourceTree = "<group>";
+		};
+		339E302B28C22CF00005C444 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				339E302C28C22D090005C444 /* Extensions.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,6 +201,7 @@
 			files = (
 				33987BD528C1028100C70DD7 /* LaunchScreen.storyboard in Resources */,
 				33987BD228C1028100C70DD7 /* Assets.xcassets in Resources */,
+				339E302F28C232690005C444 /* README.md in Resources */,
 				33987BD028C1027F00C70DD7 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -201,6 +216,7 @@
 				33987BCD28C1027F00C70DD7 /* ViewController.swift in Sources */,
 				33ADF08F28C11DC700F9401C /* SuccessViewController.swift in Sources */,
 				334C510B28C109FD000B6668 /* ErrorViewControllerController.swift in Sources */,
+				339E302D28C22D090005C444 /* Extensions.swift in Sources */,
 				334C510928C107F3000B6668 /* ViewModelProtocol.swift in Sources */,
 				33987BC928C1027F00C70DD7 /* AppDelegate.swift in Sources */,
 				334C510628C1047A000B6668 /* ViewModel.swift in Sources */,

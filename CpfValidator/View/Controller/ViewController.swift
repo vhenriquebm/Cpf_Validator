@@ -9,13 +9,12 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var viewModel = ViewModel()
     var delegate: ViewModelProtocol?
     
     //MARK: - Properties
     
     private lazy var viewTitle: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Validador de CPF"
         label.textColor = .black
@@ -49,7 +48,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        self.delegate = viewModel
+        configureDelegate(vm: ViewModel())
     }
     
     //MARK: - Private methods
@@ -62,7 +61,7 @@ class ViewController: UIViewController {
     
     @objc private func validateCpf () {
         
-        if viewModel.cpfValidator(cpf: userCpfTextField.text) == true {
+        if delegate?.cpfValidator(cpf: userCpfTextField.text) == true {
             userCpfTextField.layer.borderColor = UIColor.blue.cgColor
             userCpfTextField.layer.borderWidth = 1
         }
@@ -84,12 +83,14 @@ class ViewController: UIViewController {
         navigationController?.pushViewController(controller, animated: true)
     }
     
+    private func configureDelegate (vm: ViewModelProtocol?) {
+        self.delegate = vm
+    }
+    
     //MARK: - Constraints
     
     private func configureConstraints() {
         NSLayoutConstraint.activate([
-            
-            
             
             viewTitle.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 30),
             viewTitle.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 20),
@@ -99,34 +100,33 @@ class ViewController: UIViewController {
             userCpfTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20),
             userCpfTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -20),
             
-            
-            
             registerButton.bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: -40),
             registerButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20),
             registerButton.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -20),
-            
-            
         ])
     }
-    
-   
 }
 
 
 extension ViewController: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
         var appendString = ""
         
         if textField.placeholder == "Digite o seu CPF" {
+            
             if range.length == 0 {
+                
                 switch range.location {
+                    
                 case 3:
                     appendString = "."
                 case 7:
                     appendString = "."
                 case 11:
                     appendString = "-"
+                    
                 default:
                     break
                 }
@@ -137,25 +137,8 @@ extension ViewController: UITextFieldDelegate {
             if (textField.text?.count)! > 13 && range.length == 0 {
                 return false
             }
-        } else if textField.placeholder == "CEP" {
-            if range.length == 0 {
-                switch range.location {
-                case 2:
-                    appendString = "."
-                case 6:
-                    appendString = "-"
-                default:
-                    break
-                }
-            }
             
-            textField.text?.append(appendString)
-            
-            if (textField.text?.count)! > 9 && range.length == 0 {
-                return false
-            }
         }
         return true
     }
-    
 }

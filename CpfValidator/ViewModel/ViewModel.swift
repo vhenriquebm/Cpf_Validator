@@ -13,11 +13,9 @@ struct ViewModel: ViewModelProtocol {
     
     public func cpfValidator (cpf: String?) -> Bool {
         
-    guard let cpf = cpf, let cpfConverted = Int(cpf) else {return false}
-
-        if isValidNumberOfDigits(with: cpf) {return true}
+        guard let cpf = cpf else {return false}
         
-        if isValidCpf(cpf: cpfConverted) {return true}
+        if isValidNumberOfDigits(with: cpf) && isValidCpf(cpf: cpf)  {return true}
         
         return false
     }
@@ -26,11 +24,12 @@ struct ViewModel: ViewModelProtocol {
     
     private func isValidNumberOfDigits (with cpf:String) -> Bool {
         if cpf.count == 14 {return true}
+        if cpf.isValidCPF {return true}
         return false
     }
     
-    private func isValidCpf(cpf: Int) -> Bool {
-        
+    private func isValidCpf(cpf: String) -> Bool {
+        if cpf.isValidCPF {return true}
         return false
     }
 }
@@ -38,8 +37,9 @@ struct ViewModel: ViewModelProtocol {
 
 
 
+// multiplicar os 9 primeiros dígitos pela sequência
 
-//Vamos usar como exemplo, um CPF fictício "529.982.247-25".
+//5 * 10 + 2 * 9 + 9 * 8 + 9 * 7 + 8 * 6 + 2 * 5 + 2 * 4 + 4 * 3 + 7 * 2
 
 //Primeiramente multiplica-se os 9 primeiros dígitos pela sequência
 //5 * 10 + 2 * 9 + 9 * 8 + 9 * 7 + 8 * 6 + 2 * 5 + 2 * 4 + 4 * 3 + 7 * 2
@@ -54,6 +54,10 @@ struct ViewModel: ViewModelProtocol {
 //O resultado do nosso exemplo é:
 //
 //295
+
+
+
+
 
 
 
