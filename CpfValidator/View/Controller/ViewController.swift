@@ -78,13 +78,36 @@ class ViewController: UIViewController {
     }
     
     @objc private func presentMessageController() {
-        let controller = SuccessViewController()
-        navigationController?.pushViewController(controller, animated: true)
+        
+        if delegate?.cpfValidator(cpf: userCpfTextField.text) == true {
+            
+            Utils.presentAlert(title: "Tudo certo!", message: "cpf cadastrado com sucesso", actionMessage: "ok", controller: self) { acao in
+                
+                guard let controller = self.storyboard?.instantiateViewController(withIdentifier: "SuccessViewController") else {return}
+                
+                self.navigationController?.pushViewController(controller, animated: true)
+            }
+        }
+    
+        else {
+            Utils.presentAlert(title: "Encontramos um erro", message: "cpf incorreto", actionMessage: "ok", controller: self) { acao in
+                
+                guard let controller = self.storyboard?.instantiateViewController(withIdentifier: "ErrorViewController") else {return}
+                
+                self.navigationController?.pushViewController(controller, animated: true)
+            }
+            
+        }
+       
+       
+
     }
     
     private func configureDelegate (vm: ViewModelProtocol?) {
         self.delegate = vm
     }
+    
+
     
     //MARK: - Constraints
     

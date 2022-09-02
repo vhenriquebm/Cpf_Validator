@@ -25,7 +25,7 @@ extension Collection where Element == Int {
     }
 }
 
-extension StringProtocol {
+extension String {
     
     var isValidCPF: Bool {
         

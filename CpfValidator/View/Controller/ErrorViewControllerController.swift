@@ -29,7 +29,7 @@ class ErrorViewController: UIViewController {
     //MARK: - Private methods
 
     private func configureUI() {
-        view.backgroundColor = .green
+        view.backgroundColor = .red
     }
     
     private func configureConstraints() {
