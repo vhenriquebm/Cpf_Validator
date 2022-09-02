@@ -60,7 +60,6 @@ class ViewController: UIViewController {
     }
     
     @objc private func validateCpf () {
-        
         if delegate?.cpfValidator(cpf: userCpfTextField.text) == true {
             userCpfTextField.layer.borderColor = UIColor.blue.cgColor
             userCpfTextField.layer.borderWidth = 1
@@ -107,7 +106,6 @@ class ViewController: UIViewController {
     }
 }
 
-
 extension ViewController: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -134,10 +132,9 @@ extension ViewController: UITextFieldDelegate {
             
             textField.text?.append(appendString)
             
-            if (textField.text?.count)! > 13 && range.length == 0 {
+            if (textField.text?.count ?? 0) > 13 && range.length == 0 {
                 return false
             }
-            
         }
         return true
     }
