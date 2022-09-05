@@ -160,7 +160,6 @@ extension ViewController: UITextFieldDelegate {
                 }
             }
             
-            4333812984000000000
             textField.text?.append(appendString)
             
             if (textField.text?.count ?? 0) > 13 && range.length == 0 {
