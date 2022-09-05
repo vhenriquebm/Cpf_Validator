@@ -5,7 +5,7 @@
 //  Created by vitor henrique on 01/09/22.
 //
 
-import UIKit
+import Foundation
 
 protocol ViewModelProtocol {
      func cpfValidator (cpf: String?) -> Bool

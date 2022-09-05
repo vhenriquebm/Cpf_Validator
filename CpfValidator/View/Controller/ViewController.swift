@@ -9,7 +9,13 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var delegate: ViewModelProtocol?
+    var delegate: ViewModelProtocol?{
+        didSet {
+            if delegate == nil {
+            fatalError()
+            }
+        }
+    }
     
     //MARK: - Properties
     
@@ -38,7 +44,7 @@ class ViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .blue
         button.setTitleColor(.white, for:.normal)
-        button.setTitle("Registrar", for: .normal)
+        button.setTitle("Validar", for: .normal)
         button.addTarget(self, action: #selector(presentMessageController), for: .touchUpInside)
         button.layer.cornerRadius = 15
         return button
@@ -87,6 +93,7 @@ class ViewController: UIViewController {
                 
                 self.navigationController?.pushViewController(controller, animated: true)
             }
+            
         }
     
         else {
@@ -99,16 +106,12 @@ class ViewController: UIViewController {
             
         }
        
-       
-
     }
     
     private func configureDelegate (vm: ViewModelProtocol?) {
         self.delegate = vm
     }
-    
 
-    
     //MARK: - Constraints
     
     private func configureConstraints() {
@@ -130,6 +133,10 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: UITextFieldDelegate {
+    
+    // validar de todas as formas (colar cpf)
+    // pontos ao apagar
+    // suc e error mudar
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
@@ -153,6 +160,7 @@ extension ViewController: UITextFieldDelegate {
                 }
             }
             
+            4333812984000000000
             textField.text?.append(appendString)
             
             if (textField.text?.count ?? 0) > 13 && range.length == 0 {

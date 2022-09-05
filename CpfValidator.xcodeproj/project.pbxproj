@@ -138,8 +138,8 @@
 		339E302B28C22CF00005C444 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				339E302C28C22D090005C444 /* Extensions.swift */,
 				339E303028C280130005C444 /* Utils.swift */,
+				339E302C28C22D090005C444 /* Extensions.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
