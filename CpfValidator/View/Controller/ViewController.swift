@@ -9,13 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var delegate: ViewModelProtocol?{
-        didSet {
-            if delegate == nil {
-            fatalError()
-            }
-        }
-    }
+    var delegate: ViewModelProtocol?
     
     //MARK: - Properties
     
@@ -51,6 +45,7 @@ class ViewController: UIViewController {
     }()
     
     //MARK: - Initializers
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -63,18 +58,25 @@ class ViewController: UIViewController {
         addSubViews()
         configureConstraints()
         userCpfTextField.delegate = self
+        //        registerButton.isEnabled = false
+        registerButton.layer.backgroundColor = UIColor.lightGray.cgColor
     }
     
     @objc private func validateCpf () {
-
+        
         if delegate?.cpfValidator(cpf: userCpfTextField.text) == true {
             userCpfTextField.layer.borderColor = UIColor.blue.cgColor
             userCpfTextField.layer.borderWidth = 1
+            registerButton.layer.backgroundColor = UIColor.lightGray.cgColor
+            registerButton.isEnabled = true
+            registerButton.backgroundColor = .blue
         }
         
         else {
             userCpfTextField.layer.borderColor = UIColor.red.cgColor
             userCpfTextField.layer.borderWidth = 1
+            registerButton.isEnabled = false
+            registerButton.backgroundColor = .lightGray
         }
     }
     
@@ -88,31 +90,35 @@ class ViewController: UIViewController {
         
         if delegate?.cpfValidator(cpf: userCpfTextField.text) == true {
             
-            Utils.presentAlert(title: "Tudo certo!", message: "cpf cadastrado com sucesso", actionMessage: "ok", controller: self) { acao in
+            Utils.presentAlert(title: "Tudo certo!", message: "cpf cadastrado com sucesso", actionMessage: "OK", controller: self) { acao in
                 
-                guard let controller = self.storyboard?.instantiateViewController(withIdentifier: "SuccessViewController") else {return}
-                
-                self.navigationController?.pushViewController(controller, animated: true)
+                if let controller = self.storyboard?.instantiateViewController(withIdentifier: "SuccessViewController") as? MessageViewController {
+                    controller.messageImageView.image = UIImage(named: "check")
+                    controller.messageLabel.text = "Sucesso!"
+                    
+                    self.navigationController?.pushViewController(controller, animated: true)
+                }
             }
-            
         }
-    
+        
         else {
             Utils.presentAlert(title: "Encontramos um erro", message: "cpf incorreto", actionMessage: "ok", controller: self) { acao in
                 
-                guard let controller = self.storyboard?.instantiateViewController(withIdentifier: "ErrorViewController") else {return}
-                
-                self.navigationController?.pushViewController(controller, animated: true)
+                if let controller = self.storyboard?.instantiateViewController(withIdentifier: "SuccessViewController") as? MessageViewController {
+                    controller.messageImageView.image = UIImage(named: "error")
+                    controller.messageLabel.text = "Erro!"
+                    controller.view.backgroundColor = .red
+                    
+                    self.navigationController?.pushViewController(controller, animated: true)
+                }
             }
-            
         }
-       
     }
     
     private func configureDelegate (vm: ViewModelProtocol?) {
         self.delegate = vm
     }
-
+    
     //MARK: - Constraints
     
     private func configureConstraints() {
@@ -131,58 +137,62 @@ class ViewController: UIViewController {
             registerButton.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -20),
         ])
     }
-    
-    
-  
 }
 
 extension ViewController: UITextFieldDelegate {
-
-    // validar de todas as formas (colar cpf)
-    // pontos ao apagar
-    // suc e error mudar
-
-        func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-         
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        guard CharacterSet(charactersIn:"0123456789").isSuperset(of: CharacterSet(charactersIn: string)) else {return false}
+        
+        var appendString = ""
+        
+        if textField.placeholder == "Digite o seu CPF" {
             
-            var appendString = ""
-            if textField.placeholder == "Digite o seu CPF" {
-            
-                        if range.length == 0 {
-            
-                            switch range.location {
-            
-                            case 3:
-                                appendString = "."
-                            case 7:
-                                appendString = "."
-                            case 11:
-                                appendString = "-"
-            
-                            default:
-                                break
-                            }
-            
-                        }
-            
-                            textField.text?.append(appendString)
+            if range.length == 0 {
                 
-                            if (textField.text?.count ?? 0) > 13 && range.length == 0 {
-                                return false
-                            }
-                        }
-            
-            
-            if string.isEmpty {
-                
-                if range.location == 12.isem {
-                    appendString = ""
+                switch range.location {
+                    
+                case 3:
+                    appendString = "."
+                case 7:
+                    appendString = "."
+                case 11:
+                    appendString = "-"
+                default:
+                    break
                 }
             }
             
+            textField.text?.append(appendString)
             
-                        return true
-                    }
+            if (textField.text?.count ?? 0) > 13 && range.length == 0 {
+                return false
+            }
         }
         
+        if let char = string.cString(using: String.Encoding.utf8) {
+            let isBackSpace = strcmp(char, "\\b")
+            if (isBackSpace == -92) {
+                
+                switch range.location {
+                    
+                case 4:
+                    userCpfTextField.text?.removeLast()
+                case 8:
+                    userCpfTextField.text?.removeLast()
+                case 12:
+                    
+                    userCpfTextField.text?.removeLast()
+                    
+                default:
+                    break
+                }
+            }
+        }
+        return true
+    }
+}
+
+
 

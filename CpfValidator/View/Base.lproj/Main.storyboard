@@ -24,10 +24,10 @@
             </objects>
             <point key="canvasLocation" x="1108.6956521739132" y="70.982142857142847"/>
         </scene>
-        <!--Success View Controller-->
+        <!--Message View Controller-->
         <scene sceneID="AB3-pN-hXo">
             <objects>
-                <viewController storyboardIdentifier="SuccessViewController" id="JkL-oz-gFf" customClass="SuccessViewController" customModule="CpfValidator" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SuccessViewController" id="JkL-oz-gFf" customClass="MessageViewController" customModule="CpfValidator" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ohf-Q1-WGe">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -72,8 +72,6 @@ class ViewModel: ViewModelProtocol {
         return false
     }
     
-    
-    
     private func validateSecondDigit (cpf: String) -> Bool {
         
         let cpfdot = removeDotFromText(cpf: cpf)
@@ -95,7 +93,7 @@ class ViewModel: ViewModelProtocol {
             
             resultado += result
         }
-        print ("o resultado é \(resultado)")
+        
         let multiplyByTen = resultado * 10
         let division = multiplyByTen % 11
         let divisionChecker = checkIfDivisionIsequalToTen(result: division)
@@ -134,16 +132,12 @@ class ViewModel: ViewModelProtocol {
     }
     
     private func convertStringElement (text: String.Element) -> Int {
-        
         let digits = String(text)
-        
         let converted = Int(digits) ?? 0
-        
         return converted
     }
     
     private func checkIfDivisionIsequalToTen(result:Int ) -> Int{
-        
         var converted = result
         
         if converted == 10 {
@@ -152,6 +146,7 @@ class ViewModel: ViewModelProtocol {
         return converted
     }
 }
+
 
 
 
