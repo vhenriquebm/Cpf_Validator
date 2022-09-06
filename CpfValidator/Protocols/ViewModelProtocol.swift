@@ -8,5 +8,5 @@
 import Foundation
 
 protocol ViewModelProtocol {
-     func cpfValidator (cpf: String?) -> Bool
+     func validateCpf (cpf: String?) -> Bool
 }

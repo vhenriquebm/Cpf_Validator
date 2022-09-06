@@ -63,8 +63,11 @@ class ViewController: UIViewController {
     }
     
     @objc private func validateCpf () {
-        
-        if delegate?.cpfValidator(cpf: userCpfTextField.text) == true {
+        guard let delegate = delegate else {
+            return
+        }
+
+        if delegate.validateCpf(cpf: userCpfTextField.text) {
             userCpfTextField.layer.borderColor = UIColor.blue.cgColor
             userCpfTextField.layer.borderWidth = 1
             registerButton.layer.backgroundColor = UIColor.lightGray.cgColor
@@ -88,29 +91,33 @@ class ViewController: UIViewController {
     
     @objc private func presentMessageController() {
         
-        if delegate?.cpfValidator(cpf: userCpfTextField.text) == true {
+        guard let delegate = delegate else {
+            return
+        }
+        
+        if delegate.validateCpf(cpf: userCpfTextField.text) {
             
             Utils.presentAlert(title: "Tudo certo!", message: "cpf cadastrado com sucesso", actionMessage: "OK", controller: self) { acao in
                 
-                if let controller = self.storyboard?.instantiateViewController(withIdentifier: "SuccessViewController") as? MessageViewController {
-                    controller.messageImageView.image = UIImage(named: "check")
-                    controller.messageLabel.text = "Sucesso!"
-                    
-                    self.navigationController?.pushViewController(controller, animated: true)
-                }
+                guard let controller = self.storyboard?.instantiateViewController(withIdentifier: "SuccessViewController") as? MessageViewController else {return}
+                
+                controller.messageImageView.image = UIImage(named: "check")
+                controller.messageLabel.text = "Sucesso!"
+                
+                self.navigationController?.pushViewController(controller, animated: true)
+                
             }
         }
         
         else {
             Utils.presentAlert(title: "Encontramos um erro", message: "cpf incorreto", actionMessage: "ok", controller: self) { acao in
                 
-                if let controller = self.storyboard?.instantiateViewController(withIdentifier: "SuccessViewController") as? MessageViewController {
-                    controller.messageImageView.image = UIImage(named: "error")
-                    controller.messageLabel.text = "Erro!"
-                    controller.view.backgroundColor = .red
-                    
-                    self.navigationController?.pushViewController(controller, animated: true)
-                }
+                guard let controller = self.storyboard?.instantiateViewController(withIdentifier: "SuccessViewController") as? MessageViewController else {return}
+                controller.messageImageView.image = UIImage(named: "error")
+                controller.messageLabel.text = "Erro!"
+                controller.view.backgroundColor = .red
+                
+                self.navigationController?.pushViewController(controller, animated: true)
             }
         }
     }
@@ -149,6 +156,10 @@ extension ViewController: UITextFieldDelegate {
         
         if textField.placeholder == "Digite o seu CPF" {
             
+            if (textField.text?.count ?? 0) > 13 && range.length == 0 {
+                return false
+            }
+            
             if range.length == 0 {
                 
                 switch range.location {
@@ -165,10 +176,7 @@ extension ViewController: UITextFieldDelegate {
             }
             
             textField.text?.append(appendString)
-            
-            if (textField.text?.count ?? 0) > 13 && range.length == 0 {
-                return false
-            }
+          
         }
         
         if let char = string.cString(using: String.Encoding.utf8) {
@@ -178,12 +186,12 @@ extension ViewController: UITextFieldDelegate {
                 switch range.location {
                     
                 case 4:
-                    userCpfTextField.text?.removeLast()
+                    textField.text?.removeLast()
                 case 8:
-                    userCpfTextField.text?.removeLast()
+                    textField.text?.removeLast()
                 case 12:
                     
-                    userCpfTextField.text?.removeLast()
+                    textField.text?.removeLast()
                     
                 default:
                     break

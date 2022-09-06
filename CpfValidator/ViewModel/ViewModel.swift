@@ -11,30 +11,23 @@ class ViewModel: ViewModelProtocol {
     
     //MARK: - Public Methods
     
-    public func cpfValidator (cpf: String?) -> Bool {
-        
+    public func validateCpf (cpf: String?) -> Bool {
         guard let cpf = cpf else {return false}
         
-        if isValidNumberOfDigits(with: cpf) && isValidCpf(cpf: cpf)  {return true}
-        
-        return false
+        return isValidNumberOfDigits(with: cpf) && isValidCpf(cpf: cpf)
     }
     
     //MARK: - Private Methods
     
     private func isValidNumberOfDigits (with cpf:String) -> Bool {
-        if cpf.count == 14 {return true}
-        return false
+         return cpf.count == 14
     }
     
     private func isValidCpf(cpf: String) -> Bool {
-        if validateFirstDigit(cpf: cpf) && validateSecondDigit(cpf: cpf) {return true}
-        
-        return false
+        return validateFirstDigit(cpf: cpf) && validateSecondDigit(cpf: cpf)
     }
     
     private func validateFirstDigit (cpf: String) -> Bool {
-        
         var resultado: Int = 0
         var value: Int = 11
         
@@ -66,10 +59,7 @@ class ViewModel: ViewModelProtocol {
         let firstDigit = String(ninethDigit)
         print ("o resultado da divisão é \(divisionResult)")
         print ("o primeiro digito é é \(ninethDigit)")
-        if divisionResult == firstDigit {
-            return true
-        }
-        return false
+        return divisionResult == firstDigit
     }
     
     private func validateSecondDigit (cpf: String) -> Bool {
@@ -104,21 +94,15 @@ class ViewModel: ViewModelProtocol {
         let firstDigit = String(tenthDigit)
         print ("o resultado da divisão é \(divisionResult)")
         print ("o segundo digito é \(tenthDigit)")
-        if divisionResult == firstDigit {
-            return true
-        }
-        return false
+        return divisionResult == firstDigit
     }
     
     private func removeDotFromText(cpf: String) -> String {
-        let cpf = cpf.replacingOccurrences(of: ".", with: "", options: NSString.CompareOptions.literal, range: nil)
-        return cpf
+       return cpf.replacingOccurrences(of: ".", with: "", options: NSString.CompareOptions.literal, range: nil)
     }
     
     private func removeHifenFromText (cpf: String) -> String {
-        
-        let cpfHifen = cpf.replacingOccurrences(of: "-", with: "", options: NSString.CompareOptions.literal, range: nil)
-        return cpfHifen
+        return cpf.replacingOccurrences(of: "-", with: "", options: NSString.CompareOptions.literal, range: nil)
     }
     
     private func getFirstNineDigits (cpf:String) -> String {
@@ -139,7 +123,6 @@ class ViewModel: ViewModelProtocol {
     
     private func checkIfDivisionIsequalToTen(result:Int ) -> Int{
         var converted = result
-        
         if converted == 10 {
             converted = 0
         }
